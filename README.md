@@ -85,6 +85,17 @@ See [`docs/INSTALL.md`](docs/INSTALL.md) for a full step-by-step setup and [`doc
 
 ---
 
+## Status
+
+This is a clean, opinionated scaffold of the full system:
+
+- **Backend** (`backend/`) - fully wired Express + Socket.io app with auth, calls, translations, AI provider abstraction (Whisper, GPT, ElevenLabs, Azure, DeepL, Google), chat, meetings, subscriptions, and live captions over Socket.io. PostgreSQL schema + seed data included. Backend smoke tests pass via Jest + Supertest (`cd backend && npm install && npm test`).
+- **Mobile** (`mobile/`) - Flutter 3 app with go_router, Riverpod, dark theme, splash, full auth flow (login / signup / OTP / forgot password / Google / Apple), home with calls + contacts, **live caption call screen**, transcript, subscription, settings, and AI meeting mode entry.
+- **Admin** (`admin/`) - Next.js 14 (App Router) dashboard with backend health probe and analytics layout.
+- **Infra** - `docker-compose.yml` for one-command local dev, `k8s/` manifests with HPA, ingress, and example secrets, GitHub Actions CI for backend tests and Flutter analyze.
+
+The pieces marked stubbed/TODO in [`docs/SECURITY.md`](docs/SECURITY.md) (OAuth verifier, Twilio/Msg91 SMS, Razorpay/Stripe webhooks) are documented but not implemented yet.
+
 ## License
 
 Proprietary - © 2026 VoiceBridge AI. All rights reserved.
