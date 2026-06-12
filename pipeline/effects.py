@@ -32,7 +32,8 @@ class CameraPath:
     """Per-beat camera motion producing affine matrices for bg and fg plates."""
 
     def __init__(self, beat: Beat, cfg: config.RenderConfig, n_frames: int,
-                 plate_wh: tuple[int, int], rng: np.random.Generator):
+                 plate_wh: tuple[int, int], rng: np.random.Generator,
+                 effect: str | None = None, intensity: float | None = None):
         self.cfg = cfg
         self.beat = beat
         self.n = max(1, n_frames)
@@ -44,7 +45,8 @@ class CameraPath:
         cxp, cyp = self.Wp / 2.0, self.Hp / 2.0
         max_off_x = (self.Wp - self.W) * 0.5
         max_off_y = (self.Hp - self.H) * 0.5
-        eff = beat.effect
+        eff = effect if effect is not None else beat.effect
+        intensity = beat.intensity if intensity is None else intensity
 
         z = np.full(self.n, 1.04, np.float32)
         cx = np.full(self.n, cxp, np.float32)
@@ -73,10 +75,10 @@ class CameraPath:
             z = 1.0 + 0.10 * e
 
         # Camera shake -> grows with emotional intensity (the "emotional moment").
-        amp = (0.004 + 0.020 * beat.intensity) * self.H
+        amp = (0.004 + 0.020 * intensity) * self.H
         sx = _smooth_noise(self.n, rng, sigma=2.2) * amp
         sy = _smooth_noise(self.n, rng, sigma=2.2) * amp
-        sth = _smooth_noise(self.n, rng, sigma=2.6) * (0.25 * beat.intensity)
+        sth = _smooth_noise(self.n, rng, sigma=2.6) * (0.25 * intensity)
         cx = cx + sx
         cy = cy + sy
         th = th + sth

@@ -105,12 +105,37 @@ def _ground(d: ImageDraw.ImageDraw, w, h, y=0.72):
     d.rectangle([0, int(h * y), w, h], fill=255)
 
 
+# Alternate palettes per archetype so consecutive sub-clips differ in colour.
+MOOD_ALTS = {
+    "warm": ["warm", "gold", "dusk"], "gold": ["gold", "warm", "dusk"],
+    "cold": ["cold", "dusk", "dark"], "dusk": ["dusk", "cold", "warm"],
+    "dark": ["dark", "dusk", "cold"],
+}
+
+
+def _pick_mood(s: str, variant: int) -> str:
+    base = MOOD.get(s, "warm")
+    alts = MOOD_ALTS.get(base, [base])
+    return alts[variant % len(alts)]
+
+
+def _hshift(rgba: np.ndarray, dx: int) -> np.ndarray:
+    if dx == 0:
+        return rgba
+    out = np.zeros_like(rgba)
+    if dx > 0:
+        out[:, dx:] = rgba[:, :-dx]
+    else:
+        out[:, :dx] = rgba[:, -dx:]
+    return out
+
+
 def build_procedural(beat: Beat, cfg: config.RenderConfig,
-                     rng: np.random.Generator) -> SceneArt:
+                     rng: np.random.Generator, variant: int = 0) -> SceneArt:
     w, h = _dims(cfg)
     s = beat.scene
-    mood = MOOD.get(s, "warm")
-    sun = (0.5, 0.26)
+    mood = _pick_mood(s, variant)
+    sun = (0.5 + 0.16 * ((variant % 3) - 1), 0.24 + 0.05 * (variant % 2))
     bg = _bg_sky(w, h, mood, rng, sun)
     fg = None
 
@@ -191,43 +216,144 @@ def build_procedural(beat: Beat, cfg: config.RenderConfig,
     if fn is not None:
         col = (6, 6, 9) if mood != "gold" else (14, 9, 6)
         fg = _silhouette(w, h, fn, blur=max(2.0, w * 0.0016), color=col)
+        dx = int(w * 0.05 * ((variant % 3) - 1))
+        fg = _hshift(fg, dx)
     elif s in ("money", "recipe", "lesson"):
         # atmospheric only -> rely on light + particles + captions
         fg = None
     return SceneArt(bg=bg, fg=fg, photo=False)
 
 
-def _load_photo(path: Path, w: int, h: int) -> np.ndarray:
+_IMG_EXT = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
+_VID_EXT = (".mp4", ".mov", ".m4v", ".webm", ".mkv", ".avi")
+
+
+def _load_photo(path: Path, w: int, h: int, variant: int = 0) -> np.ndarray:
     img = Image.open(path).convert("RGB")
     iw, ih = img.size
-    scale = max(w / iw, h / ih)
+    # zoom a touch tighter for higher variants so a single photo yields
+    # several distinct framings (like cutting to a different shot).
+    zoom = 1.0 + 0.12 * (variant % 3)
+    scale = max(w / iw, h / ih) * zoom
     img = img.resize((int(iw * scale) + 1, int(ih * scale) + 1), Image.LANCZOS)
     nw, nh = img.size
-    left = (nw - w) // 2
-    top = (nh - h) // 2
+    mx = (nw - w)
+    my = (nh - h)
+    # pan the crop around for variety
+    fx = (0.5, 0.3, 0.7, 0.5, 0.4)[variant % 5]
+    fy = (0.45, 0.45, 0.4, 0.6, 0.5)[variant % 5]
+    left = int(np.clip(mx * fx, 0, max(mx, 0)))
+    top = int(np.clip(my * fy, 0, max(my, 0)))
     img = img.crop((left, top, left + w, top + h))
     return np.asarray(img, np.float32) / 255.0
 
 
-def _photo_path(beat: Beat) -> Path | None:
-    for ext in (".jpg", ".jpeg", ".png", ".webp"):
+def _key_specific_photos(beat: Beat) -> list[Path]:
+    found: list[Path] = []
+    for ext in _IMG_EXT:
         p = config.IMAGES / f"{beat.key}{ext}"
         if p.exists():
-            return p
-    return None
+            found.append(p)
+    found += sorted(
+        q for q in config.IMAGES.glob(f"{beat.key}[-_]*")
+        if q.suffix.lower() in _IMG_EXT
+    )
+    return found
+
+
+def _pool_photos(beat: Beat) -> list[Path]:
+    d = config.POOL / beat.scene
+    if not d.is_dir():
+        return []
+    return sorted(q for q in d.iterdir() if q.suffix.lower() in _IMG_EXT)
+
+
+def _photo_paths(beat: Beat) -> tuple[list[Path], bool]:
+    """Return (images, is_pool). Per-beat ``<key>`` images win over the pool."""
+    specific = _key_specific_photos(beat)
+    if specific:
+        return specific, False
+    return _pool_photos(beat), True
+
+
+def _video_paths(beat: Beat) -> list[Path]:
+    vids: list[Path] = []
+    for d in (config.IMAGES, config.CLIPS):
+        if not d.is_dir():
+            continue
+        for ext in _VID_EXT:
+            p = d / f"{beat.key}{ext}"
+            if p.exists():
+                vids.append(p)
+        vids += sorted(
+            q for q in d.glob(f"{beat.key}[-_]*")
+            if q.suffix.lower() in _VID_EXT
+        )
+    pool = config.POOL / beat.scene
+    if pool.is_dir():
+        vids += sorted(q for q in pool.iterdir() if q.suffix.lower() in _VID_EXT)
+    return vids
+
+
+def _photo_art(path: Path, cfg: config.RenderConfig, variant: int) -> SceneArt:
+    w, h = _dims(cfg)
+    bg = _load_photo(path, w, h, variant)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    cx, cy = w * 0.5, h * 0.46
+    d = np.sqrt(((xx - cx) / (w * 0.42)) ** 2 + ((yy - cy) / (h * 0.46)) ** 2)
+    alpha = np.clip(1.0 - d, 0.0, 1.0) ** 1.5
+    fg = np.dstack([bg, alpha]).astype(np.float32)
+    return SceneArt(bg=bg, fg=fg, photo=True)
+
+
+class VideoSource:
+    """A real video clip used as a moving background for a sub-clip."""
+
+    def __init__(self, path: Path, cfg: config.RenderConfig, seg_start: float):
+        self.path = path
+        self.cfg = cfg
+        self.w, self.h = _dims(cfg)
+        self.cap = cv2.VideoCapture(str(path))
+        self.fps = self.cap.get(cv2.CAP_PROP_FPS) or 30.0
+        self.count = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+        self.dur = self.count / self.fps if self.count else 0.0
+        self.seg_start = seg_start
+        self._last = None
+
+    def frame(self, local_t: float) -> np.ndarray:
+        src_t = self.seg_start + local_t
+        if self.dur > 0:
+            src_t = src_t % self.dur
+        fidx = int(src_t * self.fps)
+        self.cap.set(cv2.CAP_PROP_POS_FRAMES, max(0, fidx))
+        ok, frame = self.cap.read()
+        if not ok:
+            if self._last is not None:
+                return self._last
+            frame = np.zeros((self.h, self.w, 3), np.uint8)
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        ih, iw = frame.shape[:2]
+        scale = max(self.w / iw, self.h / ih)
+        frame = cv2.resize(frame, (int(iw * scale) + 1, int(ih * scale) + 1))
+        nh, nw = frame.shape[:2]
+        l, t = (nw - self.w) // 2, (nh - self.h) // 2
+        frame = frame[t:t + self.h, l:l + self.w]
+        self._last = (frame.astype(np.float32) / 255.0)
+        return self._last
+
+    def close(self):
+        try:
+            self.cap.release()
+        except Exception:
+            pass
 
 
 def build(beat: Beat, cfg: config.RenderConfig,
-          rng: np.random.Generator) -> SceneArt:
-    w, h = _dims(cfg)
-    p = _photo_path(beat)
-    if p is not None:
-        bg = _load_photo(p, w, h)
-        # build a soft center-weighted foreground copy for subject "pop"/parallax
-        yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-        cx, cy = w * 0.5, h * 0.46
-        d = np.sqrt(((xx - cx) / (w * 0.42)) ** 2 + ((yy - cy) / (h * 0.46)) ** 2)
-        alpha = np.clip(1.0 - d, 0.0, 1.0) ** 1.5
-        fg = np.dstack([bg, alpha]).astype(np.float32)
-        return SceneArt(bg=bg, fg=fg, photo=True)
-    return build_procedural(beat, cfg, rng)
+          rng: np.random.Generator, variant: int = 0) -> SceneArt:
+    photos, is_pool = _photo_paths(beat)
+    if photos:
+        # Rotate the pool by beat index too, so different lines of the same
+        # archetype don't all open on the same image.
+        offset = beat._index if is_pool else 0
+        return _photo_art(photos[(variant + offset) % len(photos)], cfg, variant)
+    return build_procedural(beat, cfg, rng, variant)

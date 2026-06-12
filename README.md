@@ -2,11 +2,13 @@
 
 A self-contained pipeline that renders a **5-minute cinematic, motivational
 documentary** about **Colonel Harland Sanders**, the founder of KFC — narrated
-by a deep, calm, "wise mentor" voice and edited in a premium, CapCut-Pro style
-(3D zooms, parallax, push-ins, camera shake, speed ramps, light-flash & whip
-transitions, lens flare, dust particles, film grain, cinematic color grading)
-with **animated word-by-word captions** that highlight the keywords
-`REJECTED`, `PERSISTENCE`, `SUCCESS`, and `NEVER QUIT`.
+by a deep, calm, "wise mentor" voice and edited in a premium, CapCut-Pro /
+MotivationHub style: a **fast montage of many clips** (several quick cuts per
+narration line) with 3D zooms, parallax, push-ins, camera shake, speed ramps,
+light-flash & whip transitions, lens flare, dust particles, film grain and
+cinematic color grading, plus **animated word-by-word captions** (that keep
+flowing across the cuts) which highlight the keywords `REJECTED`,
+`PERSISTENCE`, `SUCCESS`, and `NEVER QUIT`.
 
 The whole film is generated from code, so it is fully reproducible and easy to
 re-edit. It renders **end-to-end out of the box** using synthesized cinematic
@@ -52,6 +54,27 @@ python3 render.py --storyboard-only        # (re)write the image-prompt sheet
 ```
 
 ---
+
+## Montage editing (many clips)
+
+The edit is cut as a fast montage — each narration line is split into several
+short sub-clips with quick cuts (whip / light-flash / speed-ramp / dissolve),
+each with its own camera move, while the captions keep running across the cuts.
+
+```bash
+python3 render.py --clip-density 1.8   # more, faster cuts
+python3 render.py --clip-density 3.0   # fewer, slower cuts
+python3 render.py --no-montage         # one shot per line
+```
+
+Feed the montage with real footage by supplying **multiple assets per beat**:
+
+- Extra photos: `assets/images/04_closed-2.jpg`, `04_closed-3.jpg`, …
+- Video clips: `assets/clips/04_closed.mp4` (and `-2.mp4`, …) — used as moving
+  B-roll for that line.
+
+With a single photo per beat, the montage automatically re-frames it (a
+different zoom/crop per cut) so it still reads as several distinct shots.
 
 ## Photoreal mode
 

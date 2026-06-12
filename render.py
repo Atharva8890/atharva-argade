@@ -30,6 +30,16 @@ def write_storyboard_sheet() -> Path:
         "renderer will use it automatically with full cinematic motion; any beat",
         "without a supplied image falls back to a synthesized cinematic plate.",
         "",
+        "**Montage / many clips.** The edit cuts several quick sub-clips per line.",
+        "To feed the montage with real footage, supply *multiple* assets per beat:",
+        "",
+        "- Extra photos: `04_closed-2.jpg`, `04_closed-3.jpg`, ... (any number).",
+        "- Video clips: `04_closed.mp4` (or `assets/clips/04_closed.mp4`), plus",
+        "  `04_closed-2.mp4`, ... — used as moving B-roll for that line.",
+        "",
+        "If only one image is supplied, the montage automatically re-frames it",
+        "(different zoom/crop per cut). Control cut speed with `--clip-density`.",
+        "",
         "Recommended size: 2560x1440 or larger, 16:9. Suggested style suffix for",
         "every prompt: *photoreal, 1950s America, cinematic lighting, Kodachrome,",
         "film grain, shallow depth of field, ultra realistic, no text*.",
@@ -68,6 +78,10 @@ def build_cfg(args) -> config.RenderConfig:
         cfg.music_file = args.music
     if args.no_captions:
         cfg.captions = False
+    if args.no_montage:
+        cfg.montage = False
+    if args.clip_density is not None:
+        cfg.clip_density = args.clip_density
     if args.limit:
         cfg.limit_beats = args.limit
     if args.pause_scale is not None:
@@ -92,6 +106,10 @@ def main() -> None:
     p.add_argument("--music", help="path to a real music track to use instead of synth")
     p.add_argument("--voice", help="path to a Piper .onnx voice model")
     p.add_argument("--no-captions", action="store_true")
+    p.add_argument("--no-montage", action="store_true",
+                   help="one shot per line instead of many montage cuts")
+    p.add_argument("--clip-density", type=float,
+                   help="target seconds per clip (lower = more cuts, default 2.2)")
     p.add_argument("--limit", type=int, help="render only the first N beats")
     p.add_argument("--pause-scale", type=float)
     p.add_argument("--length-scale", type=float)

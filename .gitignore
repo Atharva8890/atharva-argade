@@ -10,6 +10,11 @@ assets/fonts/*.otf
 # User-supplied media
 assets/images/*
 !assets/images/.gitkeep
+assets/clips/*
+!assets/clips/.gitkeep
+assets/pool/**
+!assets/pool/.gitkeep
+assets/source_raw/
 assets/music/*
 !assets/music/.gitkeep
 

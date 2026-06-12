@@ -8,6 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "assets"
 IMAGES = ASSETS / "images"
+CLIPS = ASSETS / "clips"
+POOL = ASSETS / "pool"            # per-archetype media pools (pool/<scene>/*)
 MUSIC = ASSETS / "music"
 FONTS = ASSETS / "fonts"
 MODELS = ROOT / "models"
@@ -53,6 +55,11 @@ class RenderConfig:
     lens_flare: bool = True
     bloom: bool = True
 
+    # Montage / clip editing ---------------------------------------------
+    montage: bool = True               # cut many sub-clips per narration line
+    clip_density: float = 2.2          # target seconds per clip (lower = more cuts)
+    min_clip: float = 1.25             # never cut faster than this
+
     # Captions ------------------------------------------------------------
     captions: bool = True
     caption_font: str = str(FONTS / "Montserrat.ttf")
@@ -85,7 +92,7 @@ def draft(cfg: RenderConfig | None = None) -> RenderConfig:
 
 
 def ensure_dirs() -> None:
-    for d in (ASSETS, IMAGES, MUSIC, FONTS, MODELS, OUTPUT, CACHE):
+    for d in (ASSETS, IMAGES, CLIPS, POOL, MUSIC, FONTS, MODELS, OUTPUT, CACHE):
         d.mkdir(parents=True, exist_ok=True)
 
 
