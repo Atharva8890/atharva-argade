@@ -1,0 +1,16 @@
+{
+  "name": "browser-voice-agent",
+  "version": "1.0.0",
+  "description": "A self-contained browser voice agent built with the Web Speech APIs.",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "test": "node --test"
+  },
+  "keywords": [
+    "voice-agent",
+    "speech-recognition",
+    "speech-synthesis"
+  ],
+  "license": "MIT"
+}
