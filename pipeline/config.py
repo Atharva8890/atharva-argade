@@ -23,7 +23,7 @@ class RenderConfig:
     width: int = 1920
     height: int = 1080
     fps: int = 30
-    crf: int = 17                 # x264 quality (lower = better)
+    crf: int = 20                 # x264 quality (lower = better)
     preset: str = "medium"        # x264 speed/quality tradeoff
     audio_bitrate: str = "256k"
 

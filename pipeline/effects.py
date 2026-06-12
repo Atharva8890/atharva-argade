@@ -235,10 +235,14 @@ class LookEngine:
         return np.clip(f + self.flare * amt, 0, 1)
 
     def grain(self, f, rng):
-        a = 0.015 * self.cfg.grain_strength
+        a = 0.009 * self.cfg.grain_strength
         if a <= 0:
             return f
-        n = rng.normal(0, a, (self.H, self.W, 1)).astype(np.float32)
+        # Generate grain at half resolution and upscale: more filmic clusters
+        # and far friendlier to the video codec (avoids bitrate blow-up).
+        hw, hh = self.W // 2, self.H // 2
+        n = rng.normal(0, a, (hh, hw, 1)).astype(np.float32)
+        n = cv2.resize(n, (self.W, self.H), interpolation=cv2.INTER_LINEAR)[..., None]
         return np.clip(f + n, 0, 1)
 
     def finalize(self, f, t, intensity, rng, flash=0.0):
