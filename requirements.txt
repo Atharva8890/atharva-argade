@@ -1,0 +1,6 @@
+# Cinematic documentary renderer dependencies
+numpy>=1.26
+pillow>=10.2
+opencv-python-headless>=4.9
+scipy>=1.11
+piper-tts>=1.2

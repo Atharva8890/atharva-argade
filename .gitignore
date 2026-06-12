@@ -1,0 +1,20 @@
+# Render outputs & caches (large binaries)
+output/
+!output/.gitkeep
+
+# Models & fonts are downloaded by scripts (large binaries)
+models/
+assets/fonts/*.ttf
+assets/fonts/*.otf
+
+# User-supplied media
+assets/images/*
+!assets/images/.gitkeep
+assets/music/*
+!assets/music/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
