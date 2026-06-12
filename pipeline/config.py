@@ -31,16 +31,16 @@ class RenderConfig:
 
     # Narration -----------------------------------------------------------
     voice_model: str = str(MODELS / "en_US-ryan-high.onnx")
-    voice_length_scale: float = 1.33   # >1 = slower, more gravitas
+    voice_length_scale: float = 1.27   # >1 = slower, more gravitas
     voice_noise_scale: float = 0.60
     voice_noise_w: float = 0.80
     # Deepening / warmth applied with ffmpeg (duration preserving).
     voice_pitch: float = 0.93          # <1 = deeper voice
     voice_reverb: bool = True
 
-    # Pauses (tuned so the full piece runs ~5 minutes) --------------------
-    pause_scale: float = 3.25          # multiplies every scripted dramatic pause
-    lead_in: float = 3.5               # silence before first word (music intro)
+    # Pauses (tuned so the full piece runs ~7.5 minutes) ------------------
+    pause_scale: float = 2.05          # multiplies every scripted dramatic pause
+    lead_in: float = 3.0               # silence before first word (music intro)
     tail_out: float = 5.0              # hold on final screen after last word
 
     # Music ---------------------------------------------------------------

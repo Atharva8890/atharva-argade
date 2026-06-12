@@ -45,10 +45,10 @@ HIGHLIGHT_WORDS = {
     "rejected", "rejection", "rejections",
     "persistence", "persist", "persisted",
     "success", "successful",
-    "quit", "never", "refuse", "refused", "refuses",
+    "quit", "never", "refuse", "refused", "refuses", "refusing",
     "believe", "believed", "believing", "belief",
-    "opportunity", "yes", "breakthrough", "recipe",
-    "more", "again", "keep", "going",
+    "opportunity", "yes", "no", "nos", "breakthrough", "recipe",
+    "more", "again", "keep", "going", "broke", "chance",
 }
 
 # The four hero keywords that always render in full caps with maximum glow.
@@ -56,170 +56,235 @@ HERO_WORDS = {"REJECTED", "PERSISTENCE", "SUCCESS", "NEVER QUIT"}
 
 
 _RAW: list[Beat] = [
-    # ----- COLD OPEN HOOK (first 3 seconds) ---------------------------------
-    Beat("Let me tell you about a man who heard the word no... more than a thousand times.",
-         "title", "pushin", 0.85, 0.6, "fade",
-         prompt="Extreme close-up of elderly Colonel Sanders' eyes behind glasses, "
-                "white goatee, dramatic chiaroscuro lighting, photoreal, archival"),
+    # ===== ACT 1 — THE SUSPENSEFUL HOOK ====================================
+    Beat("Picture a man.", "title", "pushin", 0.6, 1.1, "fade",
+         prompt="Extreme close-up of an elderly man's eyes behind glasses in "
+                "shadow, mysterious, dramatic chiaroscuro, photoreal, archival"),
+    Beat("Sixty-five years old.", "portrait", "pushin", 0.6, 0.9, "light_flash",
+         prompt="Silhouetted elderly man, face half in shadow, 1950s, photoreal"),
+    Beat("Flat broke.", "money", "pushin", 0.7, 0.9, "speed_ramp",
+         prompt="A few coins and a worn wallet on an empty table, dim light, "
+                "photoreal still life"),
+    Beat("Living on a single Social Security check.", "money", "pullout", 0.65, 0.9, "whip_r",
+         prompt="A government check on a kitchen table in a humble 1950s home, "
+                "photoreal, melancholic"),
+    Beat("Driving a beat-up car across America...", "car", "track_left", 0.6, 0.8, "dissolve",
+         prompt="An old 1950s sedan on a lonely highway at dawn, photoreal"),
+    Beat("Sleeping in the back seat...", "car", "parallax_r", 0.6, 1.0, "dissolve",
+         prompt="A man sleeping in the back seat of a 1950s car at night, "
+                "streetlight glow, photoreal, intimate"),
+    Beat("Knocking on door after door...", "door_closed", "pushin", 0.7, 0.8, "speed_ramp",
+         prompt="A weathered hand knocking on a diner door, 1950s, photoreal"),
+    Beat("And hearing the same word every single time. No.", "door_closed", "pushin", 0.9, 1.3, "light_flash",
+         prompt="A door closing in the viewer's face, hard shadow, 1950s, photoreal, dramatic"),
+    Beat("By some accounts, he heard it more than a thousand times.",
+         "doors_many", "zoom3d", 0.85, 1.2, "dissolve",
+         prompt="An endless corridor of closing doors, deep perspective, photoreal, intense"),
+    Beat("Most men would have quit a lifetime ago.", "crowd", "parallax_l", 0.55, 0.9, "dissolve",
+         prompt="Defeated men in a dim 1950s bar, muted tones, photoreal"),
+    Beat("But this man was only just getting started.", "portrait", "pushin", 0.8, 1.1, "light_flash",
+         prompt="Determined elderly man lifting his gaze toward the light, photoreal"),
+    Beat("And what he was about to build...", "map", "zoom3d", 0.7, 0.9, "speed_ramp",
+         prompt="A glowing vintage map of America, lights beginning to appear, photoreal"),
+    Beat("you would recognize anywhere in the world.", "success", "rise", 0.85, 1.2, "light_flash",
+         prompt="Bright neon restaurant signs glowing at dusk, iconic, photoreal"),
+    Beat("This is the story of Colonel Harland Sanders.", "title", "pushin", 0.9, 1.6, "light_flash",
+         prompt="Iconic Colonel Sanders in white suit and string tie, warm key "
+                "light, dignified, photoreal, archival"),
 
-    # ----- STORY: THE BEGINNING --------------------------------------------
-    Beat("He was sixty-five years old.", "portrait", "pushin", 0.45, 1.1, "light_flash",
-         prompt="Dignified portrait of Colonel Harland Sanders in his white suit and "
-                "string tie, warm window light, photoreal, archival"),
-    Beat("Most folks his age were settling into retirement.", "crowd", "parallax_r", 0.35, 0.7, "dissolve",
-         prompt="Older Americans relaxing on a quiet 1950s small-town main street, "
-                "golden hour, nostalgic, photoreal documentary"),
-    Beat("Harland Sanders was just getting started.", "portrait", "pushin", 0.5, 0.9, "whip_l",
-         prompt="Determined Colonel Sanders looking toward the horizon, hopeful "
-                "morning light, 1950s, photoreal"),
-    Beat("His restaurant had gone under.", "closed", "pushin", 0.6, 0.9, "speed_ramp",
-         prompt="A small 1950s American roadside restaurant, empty and closed, "
-                "overcast, melancholic, photoreal"),
-    Beat("The money was gone.", "money", "pullout", 0.6, 0.8, "whip_r",
-         prompt="Empty cash register and a few coins on a worn diner counter, "
-                "1950s, dim light, photoreal still life"),
-    Beat("And the road ahead was wide open... and terrifying.", "horizon", "parallax_l", 0.55, 1.0, "dissolve",
-         prompt="Lone empty American highway stretching into fog at a crossroads, "
-                "1950s, uncertain mood, photoreal, cinematic"),
-    Beat("Most people would have called it quits.", "crowd", "parallax_l", 0.4, 0.7, "dissolve",
-         prompt="Tired men sitting in a 1950s small-town diner booth, "
-                "muted colors, photoreal documentary"),
-    Beat("Most people would have packed it in.", "horizon", "pushin", 0.45, 0.9, "dissolve",
-         prompt="A man's back as he stares down a dead-end road, 1950s, "
-                "low contrast, melancholic, photoreal"),
-    Beat("But this old man had one thing he believed in.", "portrait", "pushin", 0.7, 1.0, "light_flash",
-         prompt="Close-up of Colonel Sanders' resolute face, single key light, "
-                "hope in his eyes, photoreal, cinematic"),
-    Beat("A recipe. Eleven herbs and spices.", "recipe", "zoom3d", 0.7, 1.3, "speed_ramp",
-         prompt="Steam rising from a skillet of golden fried chicken on a 1950s "
-                "diner counter, photoreal, macro, warm"),
+    # ===== ACT 2 — HUMBLE, HARD BEGINNINGS =================================
+    Beat("He was born in 1890, in a small Indiana town.", "portrait", "parallax_r", 0.45, 0.9, "dissolve",
+         prompt="A young man's vintage sepia portrait, early 1900s, photoreal, archival"),
+    Beat("When he was just five years old, his father died.", "portrait", "pushin", 0.7, 1.1, "whip_l",
+         prompt="A somber young boy in early 1900s clothing, soft window light, photoreal"),
+    Beat("His mother went to work to keep food on the table.", "crowd", "parallax_l", 0.5, 0.8, "dissolve",
+         prompt="A hardworking woman in an early 1900s kitchen, warm light, photoreal"),
+    Beat("And little Harland was left to cook for his brother and sister.",
+         "recipe", "pushin", 0.55, 0.9, "dissolve",
+         prompt="A child's hands cooking at an old wood stove, early 1900s kitchen, photoreal"),
+    Beat("By the age of seven, he could cook a full meal.", "recipe", "zoom3d", 0.55, 0.9, "whip_r",
+         prompt="A simple home-cooked meal on a rustic table, warm light, photoreal"),
+    Beat("By thirteen, he left home to make his own way.", "road", "track_left", 0.6, 1.0, "speed_ramp",
+         prompt="A young boy walking down a dirt country road with a small bag, "
+                "dawn, photoreal, cinematic"),
+    Beat("And for the next forty years...", "time", "zoom3d", 0.6, 0.9, "dissolve",
+         prompt="Changing seasons and passing years over rural America, photoreal"),
+    Beat("life knocked him down again... and again... and again.",
+         "horizon", "pushin", 0.7, 1.2, "light_flash",
+         prompt="A lone figure walking into a hard wind on an empty road, photoreal, moody"),
 
-    # ----- THE JOURNEY ------------------------------------------------------
-    Beat("So with almost nothing to his name...", "car", "parallax_r", 0.55, 1.0, "dissolve",
-         prompt="A worn 1950s sedan packed with belongings outside a modest house "
-                "at dawn, photoreal, cinematic"),
-    Beat("He loaded up his car and hit the road, crisscrossing America.",
-         "road", "track_left", 0.55, 0.7, "whip_l",
-         prompt="A vintage 1950s car driving down an open American highway, vast "
-                "landscape, golden hour, photoreal, motion"),
-    Beat("And door after door, they turned him down.", "door_closed", "pushin", 0.65, 0.9, "speed_ramp",
-         prompt="A restaurant owner closing the door on a hopeful salesman, "
-                "1950s diner entrance, photoreal, dramatic"),
-    Beat("One no.", "door_closed", "pushin", 0.6, 0.8, "light_flash",
-         prompt="A single closed wooden diner door, hard shadow, 1950s, photoreal"),
+    # ===== ACT 3 — A LIFE OF FAILURE =======================================
+    Beat("He worked as a farmhand.", "crowd", "parallax_r", 0.4, 0.7, "whip_l",
+         prompt="A man working a field on an early American farm, photoreal"),
+    Beat("A streetcar conductor.", "crowd", "parallax_l", 0.4, 0.7, "whip_r",
+         prompt="A vintage streetcar on a city street, early 1900s, photoreal"),
+    Beat("A railroad fireman.", "road", "track_right", 0.45, 0.7, "speed_ramp",
+         prompt="A steam locomotive and railway, vintage, photoreal, dramatic"),
+    Beat("He sold insurance. He sold tires.", "crowd", "pushin", 0.45, 0.8, "dissolve",
+         prompt="A door-to-door salesman with a case, 1920s street, photoreal"),
+    Beat("He ran a ferry boat. He even studied law...", "horizon", "parallax_l", 0.5, 0.9, "dissolve",
+         prompt="A small ferry crossing a wide river, vintage, photoreal"),
+    Beat("until a courtroom fight ended that dream, too.", "closed", "pushin", 0.6, 1.0, "light_flash",
+         prompt="An empty vintage courtroom in dramatic light, photoreal"),
+    Beat("He lost job after job.", "closed", "parallax_r", 0.6, 0.7, "whip_r",
+         prompt="A 'closed' sign hanging in a dusty window, photoreal"),
+    Beat("Business after business.", "closed", "pushin", 0.65, 0.9, "speed_ramp",
+         prompt="A shuttered storefront on a quiet street, photoreal, melancholic"),
+    Beat("By the age when most men think about slowing down...", "horizon", "parallax_l", 0.55, 1.0, "dissolve",
+         prompt="An older man's silhouette at a crossroads at dusk, photoreal"),
+    Beat("Harland Sanders had almost nothing to show for it.", "portrait", "pushin", 0.7, 1.2, "light_flash",
+         prompt="A weary but dignified older man's face, soft shadow, photoreal"),
+
+    # ===== ACT 4 — THE SPARK ==============================================
+    Beat("But in a little gas station in Corbin, Kentucky...", "recipe", "parallax_r", 0.55, 0.9, "dissolve",
+         prompt="A 1930s roadside gas station with a small cafe, photoreal, warm"),
+    Beat("he started cooking for hungry travelers.", "recipe", "pushin", 0.6, 0.8, "whip_l",
+         prompt="A cook serving plates at a busy roadside counter, 1930s, photoreal"),
+    Beat("Fried chicken. Country ham. Fresh biscuits.", "recipe", "zoom3d", 0.65, 0.9, "speed_ramp",
+         prompt="A spread of fried chicken, ham and biscuits on a diner table, photoreal, warm"),
+    Beat("And people drove for miles just to taste it.", "crowd", "parallax_l", 0.6, 0.9, "whip_r",
+         prompt="Cars lined up outside a busy roadside diner, 1940s, photoreal"),
+    Beat("He perfected a secret recipe...", "recipe", "pushin", 0.7, 1.0, "light_flash",
+         prompt="Hands blending herbs and spices on a wooden table, macro, photoreal"),
+    Beat("eleven herbs and spices.", "recipe", "zoom3d", 0.75, 1.1, "dissolve",
+         prompt="Steam rising from golden fried chicken, close-up, photoreal, warm"),
+    Beat("He found a faster way to cook it.", "recipe", "pushin", 0.6, 0.8, "whip_l",
+         prompt="A vintage pressure cooker in a busy 1940s kitchen, photoreal"),
+    Beat("And for the first time in his life... things were working.", "growth", "rise", 0.78, 1.1, "light_flash",
+         prompt="A warm, full restaurant with happy customers, 1940s, photoreal"),
+    Beat("The state even made him a Kentucky Colonel.", "portrait", "pushin", 0.7, 1.0, "dissolve",
+         prompt="A proud man receiving an honor, warm portrait light, photoreal"),
+    Beat("Finally, after all those years... he had built something.", "success", "rise", 0.82, 1.3, "light_flash",
+         prompt="A thriving roadside restaurant at golden hour, photoreal, hopeful"),
+
+    # ===== ACT 5 — ROCK BOTTOM AT 65 ======================================
+    Beat("And then...", "horizon", "pushin", 0.7, 1.3, "speed_ramp",
+         prompt="Dark storm clouds rolling over an open highway, photoreal, ominous"),
+    Beat("they built a brand-new highway.", "road", "track_left", 0.6, 0.8, "dissolve",
+         prompt="A new interstate highway under construction, 1950s, photoreal"),
+    Beat("And it ran right past his door.", "road", "parallax_r", 0.7, 1.0, "whip_r",
+         prompt="An empty old road bypassed by a distant new highway, photoreal, lonely"),
+    Beat("The customers vanished.", "closed", "pushin", 0.7, 0.9, "speed_ramp",
+         prompt="An empty diner with stacked chairs, dim light, photoreal, melancholic"),
+    Beat("The restaurant he loved... was finished.", "closed", "pushin", 0.78, 1.2, "light_flash",
+         prompt="A 'closed' sign on a darkened restaurant door, photoreal, somber"),
+    Beat("He sold everything at auction...", "money", "pullout", 0.7, 0.9, "dissolve",
+         prompt="An auction of restaurant equipment, 1950s, photoreal, sad"),
+    Beat("and barely paid off his debts.", "money", "pushin", 0.65, 0.9, "whip_l",
+         prompt="Empty hands holding a few dollar bills, dim light, photoreal"),
+    Beat("Sixty-five years old. Dead broke. Starting over.", "portrait", "pushin", 0.85, 1.3, "light_flash",
+         prompt="A broke but unbroken older man staring ahead, dramatic light, photoreal"),
+    Beat("He could have given up. And no one would have blamed him.", "horizon", "parallax_l", 0.6, 1.0, "dissolve",
+         prompt="A lone man at a foggy crossroads at dusk, photoreal, uncertain"),
+    Beat("But he believed in one thing. His recipe.", "recipe", "zoom3d", 0.85, 1.4, "light_flash",
+         prompt="A handwritten recipe card held in weathered hands, photoreal, warm"),
+
+    # ===== ACT 6 — THE ROAD & THE REJECTIONS ==============================
+    Beat("So he packed his car and hit the road.", "car", "track_left", 0.6, 0.8, "speed_ramp",
+         prompt="A packed 1950s car pulling onto an open highway at dawn, photoreal"),
+    Beat("Town to town. Kitchen to kitchen.", "road", "parallax_r", 0.6, 0.8, "whip_r",
+         prompt="A 1950s car driving through small American towns, photoreal, motion"),
+    Beat("He would cook his chicken right there for the owner...", "recipe", "pushin", 0.6, 0.9, "dissolve",
+         prompt="An older man cooking chicken in someone else's kitchen, photoreal"),
+    Beat("and ask for just a nickel for every one they sold.", "handshake", "pushin", 0.65, 1.0, "whip_l",
+         prompt="A nickel coin held up in the light, close-up, photoreal"),
+    Beat("And the answer, almost every time, was no.", "door_closed", "pushin", 0.75, 1.0, "speed_ramp",
+         prompt="A restaurant owner shaking his head, doorway, 1950s, photoreal"),
+    Beat("One no.", "door_closed", "pushin", 0.6, 0.7, "light_flash",
+         prompt="A single closed diner door, hard shadow, photoreal"),
     Beat("Ten no's.", "doors_many", "parallax_r", 0.68, 0.7, "whip_r",
-         prompt="A row of closed restaurant doors down a 1950s main street, "
-                "repetition, photoreal, cinematic"),
+         prompt="A row of closed restaurant doors, repetition, photoreal"),
     Beat("A hundred no's.", "doors_many", "parallax_l", 0.78, 0.7, "whip_l",
-         prompt="An endless corridor of closing doors, deep perspective, 1950s "
-                "tones, photoreal, dramatic"),
-    Beat("Then hundreds more.", "doors_many", "pushin", 0.85, 1.0, "speed_ramp",
-         prompt="An overwhelming montage of slamming doors, fast motion blur, "
-                "1950s, photoreal, intense"),
-    Beat("Every rejection was another reason to give up.", "horizon", "parallax_l", 0.6, 0.9, "dissolve",
-         prompt="An exhausted older man resting his head on a car steering wheel "
-                "at night, rain on the windshield, photoreal, emotional"),
+         prompt="An endless corridor of closing doors, photoreal, dramatic"),
+    Beat("Then hundreds more.", "doors_many", "pushin", 0.85, 1.1, "speed_ramp",
+         prompt="A fast montage of slamming doors, motion blur, photoreal, intense"),
+    Beat("Every single rejection was a reason to stop.", "horizon", "parallax_l", 0.65, 1.0, "dissolve",
+         prompt="An exhausted man resting on a steering wheel at night, photoreal, emotional"),
     Beat("He refused.", "portrait", "pushin", 0.92, 1.3, "light_flash",
-         prompt="Defiant close-up of Colonel Sanders, jaw set, dramatic rim light, "
-                "photoreal, powerful"),
+         prompt="A defiant close-up, jaw set, dramatic rim light, photoreal, powerful"),
+    Beat("Where others saw a broke old man...", "crowd", "parallax_r", 0.55, 0.8, "dissolve",
+         prompt="People dismissing an older man on a busy street, photoreal"),
+    Beat("he saw a second chance.", "sunrise", "rise", 0.78, 1.0, "light_flash",
+         prompt="Sunrise breaking over an open road, hopeful rays, photoreal"),
+    Beat("While the world kept saying no...", "crowd", "parallax_l", 0.6, 0.8, "dissolve",
+         prompt="A sea of indifferent faces, muted, photoreal"),
+    Beat("he just kept driving.", "road", "track_left", 0.8, 1.1, "speed_ramp",
+         prompt="A determined driver, hands on the wheel, open road, photoreal, motion"),
 
-    # ----- THE MINDSET ------------------------------------------------------
-    Beat("Where others saw a dead end...", "horizon", "parallax_l", 0.5, 0.7, "dissolve",
-         prompt="A barricaded dead-end road under grey skies, 1950s, photoreal"),
-    Beat("He saw a door.", "sunrise", "rise", 0.72, 0.9, "light_flash",
-         prompt="Sunrise breaking over an open American road, hopeful light rays, "
-                "photoreal, cinematic warm"),
-    Beat("Where others quit...", "crowd", "parallax_r", 0.5, 0.7, "dissolve",
-         prompt="People standing still in a 1950s town square, muted, photoreal"),
-    Beat("He kept driving.", "road", "track_left", 0.72, 0.9, "whip_l",
-         prompt="Determined hands firm on the wheel of a 1950s car, open road "
-                "ahead, photoreal, motion blur"),
-    Beat("Where others complained...", "crowd", "parallax_l", 0.5, 0.7, "dissolve",
-         prompt="A group of men grumbling in a 1950s diner booth, photoreal"),
-    Beat("He kept believing.", "portrait", "pushin", 0.74, 1.1, "light_flash",
-         prompt="Colonel Sanders looking upward with quiet faith, soft halo light, "
-                "photoreal, hopeful"),
+    # ===== ACT 7 — THE FIRST YES & THE RISE ===============================
+    Beat("And then, one day...", "door_closed", "pushin", 0.75, 1.4, "speed_ramp",
+         prompt="A hand reaching toward a door handle, shaft of light, photoreal"),
+    Beat("somebody finally said yes.", "handshake", "pushin", 0.92, 1.3, "light_flash",
+         prompt="A warm handshake between two men in a 1950s restaurant, photoreal, emotional"),
+    Beat("One handshake. One deal.", "handshake", "zoom3d", 0.8, 0.9, "whip_r",
+         prompt="Two men shaking hands in golden light, close-up, photoreal"),
+    Beat("And that one yes changed everything.", "sunrise", "rise", 0.88, 1.2, "speed_ramp",
+         prompt="A radiant sunrise over a small American town, photoreal, uplifting"),
+    Beat("The chicken was a hit.", "growth", "zoom3d", 0.78, 0.7, "whip_r",
+         prompt="Delighted diners enjoying fried chicken, busy restaurant, photoreal"),
+    Beat("Then another restaurant signed on. Then another.", "growth", "pushin", 0.82, 0.8, "whip_l",
+         prompt="Several bustling 1950s restaurants with neon signs, photoreal"),
+    Beat("They gave it a name. Kentucky Fried Chicken.", "map", "zoom3d", 0.85, 1.1, "light_flash",
+         prompt="A glowing vintage map of the USA lighting up city by city, photoreal"),
+    Beat("And it spread... clear across America.", "map", "pushin", 0.88, 1.2, "speed_ramp",
+         prompt="Lights spreading across a map of the United States, photoreal, glowing"),
 
-    # ----- THE GRIND --------------------------------------------------------
-    Beat("Years went by.", "time", "zoom3d", 0.55, 1.0, "dissolve",
-         prompt="Changing seasons over an American highway, time passing, 1950s, "
-                "photoreal, cinematic"),
-    Beat("The struggle didn't let up.", "road", "track_right", 0.6, 0.8, "dissolve",
-         prompt="A lonely car on an endless highway at dusk, 1950s, photoreal, moody"),
-    Beat("But neither did he.", "portrait", "pushin", 0.78, 1.2, "light_flash",
-         prompt="Weathered but resolute Colonel Sanders, steady gaze, dramatic "
-                "light, photoreal"),
+    # ===== ACT 8 — SUCCESS & LEGACY =======================================
+    Beat("Within just a few short years, there were hundreds of locations.",
+         "growth", "pushin", 0.8, 0.9, "dissolve",
+         prompt="Rows of thriving restaurants at dusk, neon glow, photoreal"),
+    Beat("The man who had nothing at sixty-five...", "portrait", "pushin", 0.8, 1.0, "whip_l",
+         prompt="A dignified older man in a white suit, warm portrait light, photoreal"),
+    Beat("sold his company for millions.", "success", "rise", 0.9, 1.1, "light_flash",
+         prompt="A triumphant older man before a thriving restaurant empire, photoreal"),
+    Beat("And he became the face of the brand...", "portrait", "pushin", 0.82, 1.0, "dissolve",
+         prompt="Iconic Colonel Sanders portrait, white suit and string tie, photoreal"),
+    Beat("the man in the white suit the whole world would come to know.",
+         "success", "rise", 0.92, 1.3, "light_flash",
+         prompt="The iconic white-suited Colonel, warm golden light, photoreal"),
+    Beat("From a roadside kitchen...", "recipe", "parallax_r", 0.7, 0.8, "whip_r",
+         prompt="A humble roadside diner kitchen, warm light, photoreal"),
+    Beat("to one of the most famous names on the planet.", "success", "rise", 0.95, 1.5, "light_flash",
+         prompt="Glowing iconic restaurant signs against a sunset sky, photoreal, epic"),
 
-    # ----- THE TURN ---------------------------------------------------------
-    Beat("And then one day...", "door_closed", "pushin", 0.7, 1.4, "speed_ramp",
-         prompt="A hand reaching toward a door handle, anticipation, a shaft of "
-                "light, 1950s, photoreal, cinematic"),
-    Beat("Somebody finally said yes.", "handshake", "pushin", 0.9, 1.2, "light_flash",
-         prompt="A warm handshake between two men in a 1950s restaurant, deal "
-                "sealed, golden light, photoreal, emotional"),
-    Beat("And that one yes changed everything.", "sunrise", "rise", 0.85, 1.1, "speed_ramp",
-         prompt="A radiant sunrise over a small American town, new beginning, "
-                "photoreal, uplifting"),
-    Beat("The recipe caught on.", "growth", "zoom3d", 0.75, 0.7, "whip_r",
-         prompt="Fried chicken served to delighted 1950s diners, busy restaurant, "
-                "warm light, photoreal"),
-    Beat("The business took off.", "growth", "pushin", 0.8, 0.7, "whip_l",
-         prompt="Rows of bustling 1950s American restaurants with neon signs at "
-                "dusk, photoreal, cinematic"),
-    Beat("And that little brand spread clear across America.", "map", "zoom3d", 0.85, 1.0, "speed_ramp",
-         prompt="A vintage map of the United States lighting up city by city, "
-                "1950s aesthetic, photoreal, glowing"),
-    Beat("The man nobody wanted...", "portrait", "pushin", 0.78, 1.1, "dissolve",
-         prompt="A proud Colonel Sanders in white suit and string tie, iconic "
-                "look, warm portrait light, photoreal"),
-    Beat("Became one of the most successful entrepreneurs this country has ever seen.",
-         "success", "rise", 0.95, 1.4, "light_flash",
-         prompt="Iconic Colonel Sanders standing tall, triumphant, golden hour, "
-                "photoreal"),
-
-    # ----- THE LESSON -------------------------------------------------------
-    Beat("Now, this isn't a story about fried chicken.", "lesson", "pushin", 0.5, 0.9, "dissolve",
-         prompt="Clean dark cinematic background with soft volumetric light, "
-                "minimal, photoreal"),
-    Beat("It's not even about business.", "lesson", "pullout", 0.5, 0.9, "dissolve",
-         prompt="Clean dark cinematic background, drifting dust particles, photoreal"),
-    Beat("It's about persistence.", "lesson", "pushin", 0.82, 1.3, "light_flash",
-         prompt="A single beam of light cutting through darkness onto an open road, "
-                "symbolic, photoreal, cinematic"),
-    Beat("Success doesn't go to the smartest person in the room.", "lesson", "parallax_r", 0.6, 0.8, "dissolve",
-         prompt="Abstract cinematic light rays over a dark backdrop, photoreal"),
-    Beat("It doesn't go to the luckiest.", "lesson", "parallax_l", 0.6, 0.8, "dissolve",
-         prompt="Abstract cinematic light rays, dust motes, dark backdrop, photoreal"),
-    Beat("It goes to the ones who refuse to quit.", "sunrise", "rise", 0.9, 1.4, "speed_ramp",
-         prompt="A silhouette of a determined figure walking into a glowing "
-                "sunrise, photoreal, triumphant, cinematic"),
-    Beat("Because your big break might be just one more shot away.", "sunrise", "pushin", 0.85, 1.2, "light_flash",
-         prompt="Dawn light flooding an open horizon, hopeful, photoreal, cinematic"),
+    # ===== ACT 9 — THE LESSONS ============================================
+    Beat("So what can a story like this teach us?", "lesson", "pushin", 0.55, 1.0, "dissolve",
+         prompt="Clean dark cinematic background, soft volumetric light, photoreal"),
+    Beat("First. It is never too late.", "lesson", "pushin", 0.8, 1.1, "light_flash",
+         prompt="A single beam of light breaking through darkness, photoreal"),
+    Beat("He started over at an age when most people stop.", "portrait", "parallax_r", 0.6, 0.9, "dissolve",
+         prompt="An older man stepping forward into light, photoreal, hopeful"),
+    Beat("Second. Failure is not the end.", "lesson", "pullout", 0.8, 1.1, "light_flash",
+         prompt="A road rising out of shadow into light, symbolic, photoreal"),
+    Beat("He failed for forty years before he won.", "portrait", "pushin", 0.7, 1.0, "dissolve",
+         prompt="A weathered, resolute face in dramatic light, photoreal"),
+    Beat("Third. Persistence beats talent.", "lesson", "pushin", 0.85, 1.2, "light_flash",
+         prompt="Bold light rays over a dark cinematic backdrop, photoreal"),
+    Beat("He wasn't the smartest, or the luckiest.", "crowd", "parallax_l", 0.6, 0.9, "dissolve",
+         prompt="An ordinary man among a crowd, photoreal"),
+    Beat("He was simply the one who would not quit.", "portrait", "pushin", 0.9, 1.3, "light_flash",
+         prompt="A determined elderly man, unbroken stare, dramatic light, photoreal"),
+    Beat("Your breakthrough could be just one more try away.", "sunrise", "rise", 0.88, 1.2, "speed_ramp",
+         prompt="Dawn flooding an open horizon, hopeful, photoreal, cinematic"),
     Beat("One more phone call.", "lesson", "pushin", 0.7, 0.7, "whip_l",
          prompt="A vintage 1950s rotary telephone in dramatic light, photoreal"),
-    Beat("One more meeting.", "handshake", "pushin", 0.72, 0.7, "whip_r",
-         prompt="Two men shaking hands in a doorway of light, photoreal"),
-    Beat("One more try.", "sunrise", "rise", 0.8, 1.2, "light_flash",
-         prompt="A single figure stepping forward into radiant light, photoreal"),
-    Beat("So remember this.", "lesson", "pushin", 0.7, 1.1, "dissolve",
-         prompt="Dark cinematic backdrop, a single soft spotlight, photoreal"),
-    Beat("The people who change their lives aren't always the most talented.",
-         "crowd", "parallax_l", 0.6, 0.8, "dissolve",
-         prompt="Ordinary 1950s Americans with hopeful faces, photoreal"),
-    Beat("They're the ones who keep going long after everybody else gives up.",
-         "road", "track_left", 0.88, 1.4, "speed_ramp",
-         prompt="One car driving on while others sit parked at the roadside, "
-                "1950s, sunrise, photoreal, symbolic"),
+    Beat("One more door.", "door_closed", "pushin", 0.72, 0.7, "whip_r",
+         prompt="A door opening into warm light, photoreal"),
+    Beat("One more yes.", "handshake", "rise", 0.8, 1.1, "light_flash",
+         prompt="Two hands meeting in a handshake in golden light, photoreal"),
+    Beat("So whatever you're up against today...", "crowd", "parallax_l", 0.65, 1.0, "dissolve",
+         prompt="Everyday people with hopeful, determined faces, photoreal"),
+    Beat("remember the old man in the white suit.", "success", "rise", 0.9, 1.5, "speed_ramp",
+         prompt="The iconic white-suited Colonel glowing in golden light, photoreal, epic"),
 
-    # ----- FINAL SCREEN -----------------------------------------------------
-    Beat("Success belongs to those who refuse to quit.", "final", "pushin", 0.95, 1.2, "light_flash",
-         is_final=True,
+    # ===== FINAL SCREEN ===================================================
+    Beat("It is never too late.", "final", "pushin", 0.95, 1.2, "light_flash", is_final=True,
          prompt="Epic golden sunrise over America, cinematic, photoreal"),
+    Beat("Success belongs to those who refuse to quit.", "final", "pushin", 0.95, 1.3, "light_flash",
+         is_final=True, prompt="Radiant horizon with particles, cinematic, photoreal"),
     Beat("One more try.", "final", "pushin", 0.9, 1.0, "dissolve", is_final=True,
          prompt="Glowing horizon, particles, cinematic, photoreal"),
-    Beat("One more step.", "final", "pushin", 0.9, 1.0, "dissolve", is_final=True,
-         prompt="Glowing horizon, particles, cinematic, photoreal"),
-    Beat("Never quit.", "final", "pushin", 1.0, 2.2, "light_flash", is_final=True,
+    Beat("Never quit.", "final", "pushin", 1.0, 2.4, "light_flash", is_final=True,
          prompt="Blinding triumphant light, cinematic, photoreal"),
 ]
 
