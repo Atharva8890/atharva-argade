@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Personal website for Atharva Argade, featuring projects, focus areas, and contact links."
+    >
+    <title>Atharva Argade | Personal Website</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="#home" aria-label="Atharva Argade home">
+          <span class="brand-mark">AA</span>
+          <span>Atharva Argade</span>
+        </a>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="nav-links"
+        >
+          <span class="sr-only">Toggle navigation</span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="#about">About</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero section">
+        <div class="hero-copy">
+          <p class="eyebrow">Developer portfolio</p>
+          <h1>Building useful digital experiences with clean, thoughtful design.</h1>
+          <p class="hero-text">
+            A simple, fast personal website for sharing projects, interests, and
+            ways to connect.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#work">Explore work</a>
+            <a class="button button-secondary" href="https://github.com/Atharva8890">GitHub profile</a>
+          </div>
+        </div>
+        <div class="hero-card" aria-label="Website highlights">
+          <div class="card-glow"></div>
+          <p class="card-label">Current focus</p>
+          <h2>Web development</h2>
+          <p>
+            Responsive interfaces, accessible experiences, and maintainable
+            frontend foundations.
+          </p>
+        </div>
+      </section>
+
+      <section class="section split" id="about">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2>A clear home for your work online.</h2>
+        </div>
+        <p>
+          This site is ready to customize with a bio, resume link, project
+          screenshots, and contact details. It is intentionally lightweight, so
+          it loads quickly and can be deployed on any static hosting provider.
+        </p>
+      </section>
+
+      <section class="section" id="work">
+        <div class="section-heading">
+          <p class="eyebrow">Work</p>
+          <h2>Featured sections</h2>
+          <p>
+            Use these cards to highlight projects, skills, experience, or
+            anything else visitors should see first.
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <span class="project-number">01</span>
+            <h3>Projects</h3>
+            <p>
+              Add links to applications, open-source repositories, case studies,
+              or demos.
+            </p>
+          </article>
+          <article class="project-card">
+            <span class="project-number">02</span>
+            <h3>Skills</h3>
+            <p>
+              Share the languages, tools, frameworks, and workflows that shape
+              your work.
+            </p>
+          </article>
+          <article class="project-card">
+            <span class="project-number">03</span>
+            <h3>Experience</h3>
+            <p>
+              Summarize internships, coursework, freelance work, or other
+              relevant background.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Ready to personalize.</h2>
+          <p>
+            Replace this placeholder copy with your preferred contact method,
+            social links, or a short call to action.
+          </p>
+        </div>
+        <a class="button button-primary" href="https://github.com/Atharva8890">Connect on GitHub</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; <span id="current-year"></span> Atharva Argade. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
