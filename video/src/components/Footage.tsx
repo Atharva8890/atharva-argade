@@ -2,49 +2,41 @@ import React from "react";
 import {
   AbsoluteFill,
   interpolate,
-  Loop,
   OffthreadVideo,
   staticFile,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
-import footage from "../data/footage.json";
+import proc from "../data/footage_proc.json";
 import { Theme, mix, withAlpha } from "../lib/sceneTypes";
 
-type Clip = { file: string; duration: number; startFrom: number };
-const BY = (footage as { byChapter: Record<string, Clip> }).byChapter;
+const CLIPS = (proc as { clips: Record<string, string> }).clips;
 
-export const hasFootage = (key: string) => Boolean(BY[key]);
+/** processed clip for a chapter index, or null */
+export const procClip = (i: number): string | null => CLIPS[String(i)] ?? null;
 
-const PLAYBACK = 0.62; // cinematic slow-motion
-
-/** one looped iteration: graded video + slow Ken Burns */
-const ClipShot: React.FC<{ clip: Clip; theme: Theme; loopFrames: number }> = ({
-  clip,
+/**
+ * Plays a PRE-PROCESSED clip (already slowed + looped + exact length by
+ * assets/process_footage.py) linearly at rate 1.0 — fast & robust to render —
+ * with a slow Ken Burns move and a cohesive cinematic grade.
+ */
+export const Footage: React.FC<{ file: string; theme: Theme; dur: number }> = ({
+  file,
   theme,
-  loopFrames,
+  dur,
 }) => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const p = frame / loopFrames;
-  const scale = interpolate(p, [0, 1], [1.08, 1.2]);
-  const panX = interpolate(p, [0, 1], [-1.5, 1.5]);
-  const panY = interpolate(p, [0, 1], [1.5, -1.5]);
+  const p = interpolate(frame, [0, dur], [0, 1], { extrapolateRight: "clamp" });
+  const scale = interpolate(p, [0, 1], [1.06, 1.16]);
+  const panX = interpolate(p, [0, 1], [-1.4, 1.4]);
+  const panY = interpolate(p, [0, 1], [1.2, -1.2]);
   return (
-    <AbsoluteFill>
-      <div
-        style={{
-          position: "absolute",
-          inset: "-6%",
-          transform: `scale(${scale}) translate(${panX}%, ${panY}%)`,
-        }}
-      >
+    <AbsoluteFill style={{ background: "#000" }}>
+      <div style={{ position: "absolute", inset: "-6%", transform: `scale(${scale}) translate(${panX}%, ${panY}%)` }}>
         <OffthreadVideo
-          src={staticFile(`footage/${clip.file}`)}
-          startFrom={Math.round(clip.startFrom * fps)}
-          playbackRate={PLAYBACK}
+          src={staticFile(`footage_proc/${file}`)}
           volume={0}
-          // graded for a cohesive, cinematic, slightly teal-orange look
+          delayRenderRetries={3}
+          delayRenderTimeoutInMilliseconds={120000}
           style={{
             width: "100%",
             height: "100%",
@@ -53,27 +45,8 @@ const ClipShot: React.FC<{ clip: Clip; theme: Theme; loopFrames: number }> = ({
           }}
         />
       </div>
-    </AbsoluteFill>
-  );
-};
 
-export const Footage: React.FC<{ chapterKey: string; theme: Theme }> = ({
-  chapterKey,
-  theme,
-}) => {
-  const { fps } = useVideoConfig();
-  const clip = BY[chapterKey];
-  if (!clip) return null;
-  const content = Math.max(2, clip.duration - clip.startFrom);
-  const loopFrames = Math.max(30, Math.round((content / PLAYBACK) * fps));
-
-  return (
-    <AbsoluteFill style={{ background: "#000" }}>
-      <Loop durationInFrames={loopFrames}>
-        <ClipShot clip={clip} theme={theme} loopFrames={loopFrames} />
-      </Loop>
-
-      {/* colour-grade tint to match the chapter palette */}
+      {/* palette tint to match the chapter */}
       <AbsoluteFill
         style={{
           background: `linear-gradient(180deg, ${withAlpha(theme.b, 0.35)} 0%, ${withAlpha(
@@ -89,7 +62,7 @@ export const Footage: React.FC<{ chapterKey: string; theme: Theme }> = ({
           mixBlendMode: "screen",
         }}
       />
-      {/* legibility scrim: darken top (title cards) and bottom (captions) */}
+      {/* legibility scrim for title cards (top) and captions (bottom) */}
       <AbsoluteFill
         style={{
           background:

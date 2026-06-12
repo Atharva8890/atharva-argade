@@ -7,7 +7,7 @@ import {
 } from "remotion";
 import { timeline } from "../lib/timeline";
 import { Scene } from "../scenes/Scenes";
-import { Footage, hasFootage } from "./Footage";
+import { Footage, procClip } from "./Footage";
 
 const FPS = timeline.fps;
 const OVERLAP = Math.round(0.7 * FPS);
@@ -32,12 +32,12 @@ export const Background: React.FC = () => {
         const from = Math.max(0, Math.round(c.start * FPS) - (i > 0 ? OVERLAP : 0));
         const to = Math.round(nextStart * FPS) + (i + 1 < starts.length ? OVERLAP : 0);
         const dur = Math.max(2, to - from);
-        const fk = c.kind === "endcard" ? "endcard" : c.key;
+        const clip = procClip(i);
         return (
           <Sequence key={i} from={from} durationInFrames={dur} layout="none">
             <FadeWrap dur={dur}>
-              {hasFootage(fk) ? (
-                <Footage chapterKey={fk} theme={c.theme} />
+              {clip ? (
+                <Footage file={clip} theme={c.theme} dur={dur} />
               ) : (
                 <Scene scene={c.scene} theme={c.theme} seed={i + 1} dur={dur} />
               )}
