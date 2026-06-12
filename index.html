@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VaaniBridge — बोला मराठीत, ऐकू द्या Professional English मध्ये</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>VaaniBridge</h1>
+          <p>तुमची भाषा → Professional English</p>
+        </div>
+      </div>
+      <button id="settingsBtn" class="icon-btn" title="Settings / सेटिंग्ज">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </header>
+
+    <main class="main">
+      <!-- Language bar -->
+      <section class="lang-bar">
+        <div class="lang-select-wrap">
+          <label for="sourceLang">मी बोलणार / I speak</label>
+          <select id="sourceLang">
+            <option value="mr-IN" selected>मराठी (Marathi)</option>
+            <option value="hi-IN">हिंदी (Hindi)</option>
+            <option value="gu-IN">ગુજરાતી (Gujarati)</option>
+            <option value="ta-IN">தமிழ் (Tamil)</option>
+            <option value="te-IN">తెలుగు (Telugu)</option>
+            <option value="kn-IN">ಕನ್ನಡ (Kannada)</option>
+            <option value="bn-IN">বাংলা (Bengali)</option>
+            <option value="pa-IN">ਪੰਜਾਬੀ (Punjabi)</option>
+            <option value="ml-IN">മലയാളം (Malayalam)</option>
+            <option value="ur-IN">اردو (Urdu)</option>
+          </select>
+        </div>
+        <div class="lang-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+        <div class="lang-select-wrap">
+          <label for="voiceSelect">समोरच्याला ऐकू येईल / They hear</label>
+          <select id="voiceSelect">
+            <option value="">Professional English (auto voice)</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Mic area -->
+      <section class="mic-area">
+        <div class="mic-rings" id="micRings">
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <button id="micBtn" class="mic-btn" title="बोलायला सुरुवात करा">
+            <svg id="micIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <p id="statusText" class="status-text">🎙️ बटण दाबा आणि मराठीत बोला</p>
+        <p id="interimText" class="interim-text"></p>
+      </section>
+
+      <!-- Conversation -->
+      <section class="conversation" id="conversation">
+        <div class="empty-state" id="emptyState">
+          <p>इथे तुमचं बोलणं आणि त्याचं English भाषांतर दिसेल.</p>
+          <p class="muted">Your speech and its professional English translation will appear here.</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Settings panel -->
+    <div class="overlay" id="overlay"></div>
+    <aside class="settings-panel" id="settingsPanel">
+      <div class="settings-header">
+        <h2>सेटिंग्ज / Settings</h2>
+        <button id="closeSettings" class="icon-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="setting-group">
+        <label class="toggle-row">
+          <span>
+            <strong>Auto-speak English</strong>
+            <small>भाषांतर झाल्यावर लगेच English मध्ये बोलून दाखवा</small>
+          </span>
+          <input type="checkbox" id="autoSpeak" checked />
+          <span class="toggle"></span>
+        </label>
+      </div>
+
+      <div class="setting-group">
+        <label for="speechRate"><strong>बोलण्याचा वेग / Speech rate: <span id="rateValue">1.0</span>x</strong></label>
+        <input type="range" id="speechRate" min="0.6" max="1.4" step="0.1" value="1.0" />
+      </div>
+
+      <div class="setting-group">
+        <label for="apiKey">
+          <strong>OpenAI API Key (ऐच्छिक / optional)</strong>
+          <small>Key दिल्यास भाषांतर अधिक polished, professional English मध्ये होईल. Key फक्त तुमच्या browser मध्ये (localStorage) साठवली जाते.</small>
+        </label>
+        <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
+      </div>
+
+      <div class="setting-group">
+        <label for="toneSelect"><strong>English ची शैली / Tone</strong></label>
+        <select id="toneSelect">
+          <option value="professional" selected>Professional / Business</option>
+          <option value="formal">Formal / Polite</option>
+          <option value="friendly">Friendly / Casual</option>
+        </select>
+      </div>
+
+      <div class="setting-group how-to">
+        <strong>Call वर कसं वापरायचं?</strong>
+        <ol>
+          <li>Call speakerphone वर ठेवा किंवा हा app दुसऱ्या device वर उघडा.</li>
+          <li>Mic बटण दाबा आणि मराठीत बोला.</li>
+          <li>App तुमचं वाक्य English मध्ये मोठ्याने बोलेल — समोरच्या व्यक्तीला ते ऐकू जाईल.</li>
+        </ol>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
