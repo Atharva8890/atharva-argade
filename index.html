@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nova Voice Agent</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script type="module" src="./src/app.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero" aria-labelledby="voice-agent-title">
+        <p class="eyebrow">Browser voice agent</p>
+        <h1 id="voice-agent-title">Talk with Nova</h1>
+        <p class="hero-copy">
+          Nova listens through your microphone, routes simple commands locally,
+          and answers out loud with browser speech synthesis.
+        </p>
+
+        <div class="status-card" data-status-card data-tone="idle" aria-live="polite">
+          <span class="pulse" aria-hidden="true"></span>
+          <span data-status data-tone="idle">Ready</span>
+        </div>
+
+        <div class="controls" aria-label="Voice controls">
+          <button class="button button-primary" type="button" data-start>
+            Start listening
+          </button>
+          <button class="button button-secondary" type="button" data-stop disabled>
+            Stop
+          </button>
+          <label class="mute-toggle">
+            <input type="checkbox" data-mute>
+            <span>Mute replies</span>
+          </label>
+        </div>
+
+        <p class="support-notice" data-support-notice hidden></p>
+      </section>
+
+      <section class="workspace-grid" aria-label="Voice agent workspace">
+        <article class="panel transcript-panel">
+          <div class="panel-heading">
+            <h2>Conversation</h2>
+            <p>Use your voice or type a command.</p>
+          </div>
+          <ol class="transcript" data-transcript aria-live="polite"></ol>
+
+          <form class="text-command" data-text-form>
+            <label for="typed-command">Type a command</label>
+            <div class="text-command-row">
+              <input
+                id="typed-command"
+                type="text"
+                autocomplete="off"
+                data-text-input
+                placeholder="Try: set a reminder to stretch"
+              >
+              <button class="button button-primary" type="submit">Send</button>
+            </div>
+          </form>
+        </article>
+
+        <aside class="panel side-panel">
+          <div class="panel-heading">
+            <h2>Try saying</h2>
+            <p>Nova works fully in the browser.</p>
+          </div>
+          <ul class="command-list">
+            <li>"What time is it?"</li>
+            <li>"What is the date?"</li>
+            <li>"Set a reminder to drink water."</li>
+            <li>"List reminders."</li>
+            <li>"Clear reminders."</li>
+            <li>"Repeat that."</li>
+          </ul>
+
+          <div class="reminders-card">
+            <h3>Saved reminders</h3>
+            <ul class="reminders" data-reminders></ul>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
