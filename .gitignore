@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+video/node_modules/
+
+# build / render output
+video/out/
+out/
+
+# remotion / bundler caches
+.remotion/
+video/.remotion/
+
+# python caches
+__pycache__/
+*.pyc
+audio/.cache/
+
+# large/regenerable audio (kept: compressed master final_audio.m4a)
+audio/voices/*.onnx
+audio/reference/
+assets/.cache/
+
+# large/regenerable B-roll clips (kept: manifest + fetcher + credits)
+video/public/footage/*.mp4
+video/public/footage_proc/*.mp4
+
+# OS
+.DS_Store

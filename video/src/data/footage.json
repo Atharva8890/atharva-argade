@@ -1,0 +1,119 @@
+{
+  "byChapter": {
+    "cold_open": {
+      "file": "cold_open_0.mp4",
+      "duration": 16.0,
+      "startFrom": 0.0
+    },
+    "title": {
+      "file": "title_0.mp4",
+      "duration": 12.83,
+      "startFrom": 0.0
+    },
+    "discipline": {
+      "file": "discipline_1.mp4",
+      "duration": 16.03,
+      "startFrom": 0.0
+    },
+    "learn": {
+      "file": "learn_0.mp4",
+      "duration": 16.03,
+      "startFrom": 0.0
+    },
+    "comeback": {
+      "file": "success_0.mp4",
+      "duration": 16.0,
+      "startFrom": 1.0
+    },
+    "global": {
+      "file": "global_1.mp4",
+      "duration": 7.5,
+      "startFrom": 0.0
+    },
+    "mindset": {
+      "file": "mindset_0.mp4",
+      "duration": 8.43,
+      "startFrom": 0.0
+    },
+    "success": {
+      "file": "success_1.mp4",
+      "duration": 16.0,
+      "startFrom": 0.0
+    },
+    "finale": {
+      "file": "success_0.mp4",
+      "duration": 16.0,
+      "startFrom": 1.0
+    },
+    "endcard": {
+      "file": "endcard_0.mp4",
+      "duration": 16.0,
+      "startFrom": 0.0
+    }
+  },
+  "credits": [
+    {
+      "file": "cold_open_0.mp4",
+      "author": "https://www.youtube.com/user/Editor",
+      "license": "CC BY 3.0",
+      "src": "File:City skyline (time lapse).webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "discipline_1.mp4",
+      "author": "Frank Vincentz",
+      "license": "CC BY-SA 3.0",
+      "src": "File:Radevormwald - Raindrops on a window 07 (1) ies.webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "endcard_0.mp4",
+      "author": "https://www.youtube.com/user/Editor",
+      "license": "CC BY 3.0",
+      "src": "File:City skyline (time lapse).webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "global_1.mp4",
+      "author": "Mike Collins",
+      "license": "CC BY 3.0",
+      "src": "File:Chicago Skyline Timelapse from Lake Michigan Shore.webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "learn_0.mp4",
+      "author": "jonknee",
+      "license": "CC BY 3.0",
+      "src": "File:Alaskan Way Viaduct timelapse.webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "mindset_0.mp4",
+      "author": "G. Edward Johnson",
+      "license": "CC BY 4.0",
+      "src": "File:Aurora-Iceland Northern Lights timelapse 2026-02-06.hd.webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "success_0.mp4",
+      "author": "https://www.youtube.com/user",
+      "license": "CC BY 3.0",
+      "src": "File:At the top of the mountain Mangart..webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "success_1.mp4",
+      "author": "GeorgiDOT",
+      "license": "CC BY 3.0",
+      "src": "File:Timelapse of I-285 and SR 400 interchange construction in Georgia USA.webm",
+      "source": "Wikimedia Commons"
+    },
+    {
+      "file": "title_0.mp4",
+      "author": "Andre Carrotflower",
+      "license": "CC BY-SA 4.0",
+      "src": "File:Early morning arrival on Amtrak Empire Service, Rochester, New York - 20220615.webm",
+      "source": "Wikimedia Commons"
+    }
+  ]
+}
